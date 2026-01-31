@@ -1,0 +1,1869 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Youth & Family Needs Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      --fg: #1a1a2e;
+      --muted: #64748b;
+      --primary: #667eea;
+      --primary-dark: #5a67d8;
+      --secondary: #f093fb;
+      --border: rgba(255,255,255,0.2);
+      --card-bg: rgba(255,255,255,0.95);
+      --success: #10b981;
+      --accent: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      background-attachment: fixed;
+      color: var(--fg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      position: relative;
+      touch-action: pan-y;
+    }
+
+    /* Animated background shapes */
+    .bg-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bg-shapes span {
+      position: absolute;
+      display: block;
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 25s infinite;
+      border-radius: 50%;
+    }
+    .bg-shapes span:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+    .bg-shapes span:nth-child(2) { left: 20%; width: 40px; height: 40px; animation-delay: 2s; animation-duration: 12s; }
+    .bg-shapes span:nth-child(3) { left: 35%; animation-delay: 4s; }
+    .bg-shapes span:nth-child(4) { left: 50%; width: 100px; height: 100px; animation-delay: 0s; animation-duration: 18s; }
+    .bg-shapes span:nth-child(5) { left: 65%; animation-delay: 0s; }
+    .bg-shapes span:nth-child(6) { left: 80%; width: 50px; height: 50px; animation-delay: 3s; }
+    .bg-shapes span:nth-child(7) { left: 90%; width: 70px; height: 70px; animation-delay: 7s; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 20px 20px 120px;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Progress indicator */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--secondary));
+      width: 0%;
+      transition: width 0.3s ease;
+      z-index: 100;
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    /* Question counter */
+    .question-counter {
+      text-align: center;
+      color: rgba(255,255,255,0.95);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.1);
+      padding: 40px 32px;
+      animation: slideUp 0.4s ease-out;
+      width: 100%;
+      min-width: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-image {
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 16px;
+      display: block;
+    }
+
+    .header-org {
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Language switcher */
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .lang-btn {
+      padding: 10px 18px;
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      background: rgba(102, 126, 234, 0.05);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-height: 44px;
+    }
+
+    .lang-btn:hover {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Question screen - single question visible */
+    .question-screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      animation: slideInRight 0.3s ease-out;
+    }
+
+    .question-screen.active {
+      display: flex;
+    }
+
+    .question-screen.slide-left {
+      animation: slideInLeft 0.3s ease-out;
+    }
+
+    .question-screen.slide-right {
+      animation: slideInRight 0.3s ease-out;
+    }
+
+    .question-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .question-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 12px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .question-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    /* Form elements */
+    .field {
+      margin: 20px 0;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--fg);
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      font-size: 17px;
+      font-family: inherit;
+      background: #f8fafc;
+      transition: all 0.3s ease;
+      min-height: 56px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* Chips for multiple choice */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .chip {
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .chip input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .chip span {
+      display: inline-flex;
+      align-items: center;
+      padding: 14px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      background: white;
+      transition: all 0.3s ease;
+      min-height: 52px;
+    }
+
+    .chip input:checked + span {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .chip:hover span {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Kids count chips - larger and more prominent */
+    .kids-count-chips .chip span {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      font-weight: 700;
+      justify-content: center;
+      padding: 0;
+    }
+
+    /* Children container */
+    .children-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .child-item {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .child-number {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .row.single {
+      grid-template-columns: 1fr;
+    }
+
+    /* Travel mode selector */
+    .travel-mode-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--fg);
+    }
+
+    .mode-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .travel-input-group {
+      display: none;
+    }
+
+    .travel-input-group.active {
+      display: block;
+    }
+
+    .slider-container {
+      margin: 20px 0;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    .slider-value {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 12px 0;
+    }
+
+    /* Navigation arrows */
+    .nav-arrows {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      padding: 16px 20px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+      z-index: 50;
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 56px;
+      font-family: inherit;
+    }
+
+    .nav-btn-back {
+      background: #f1f5f9;
+      color: var(--fg);
+    }
+
+    .nav-btn-back:hover:not(:disabled) {
+      background: #e2e8f0;
+      transform: translateY(-2px);
+    }
+
+    .nav-btn-back:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .nav-btn-next {
+      background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .nav-btn-next:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .nav-btn-next:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .nav-btn-submit {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .nav-btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Honeypot */
+    .hp {
+      position: absolute;
+      left: -5000px;
+    }
+
+    /* Success screen */
+    .success-screen {
+      display: none;
+      text-align: center;
+      animation: slideUp 0.6s ease-out;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .success-screen.visible {
+      display: flex;
+    }
+
+    .success-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      margin: 0 auto 24px;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    }
+
+    .success-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 16px;
+    }
+
+    .success-message {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    /* RTL Support */
+    body.rtl {
+      direction: rtl;
+    }
+
+    body.rtl input,
+    body.rtl select,
+    body.rtl textarea {
+      direction: rtl;
+      text-align: right;
+    }
+
+    body.rtl .lang-switcher {
+      direction: ltr;
+    }
+
+    body.rtl *,
+    body.rtl *::before,
+    body.rtl *::after {
+      box-sizing: border-box;
+    }
+
+    body.rtl .nav-btn-back {
+      flex-direction: row-reverse;
+    }
+
+    body.rtl .nav-btn-next {
+      flex-direction: row-reverse;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 16px 16px 100px;
+      }
+
+      .card {
+        padding: 32px 24px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .header-org {
+        font-size: 0.85rem;
+      }
+
+      .muted {
+        font-size: 0.95rem;
+      }
+
+      .question-title {
+        font-size: 1.3rem;
+      }
+
+      .section-icon {
+        font-size: 40px;
+      }
+
+      .chip span {
+        padding: 12px 16px;
+        font-size: 15px;
+        min-height: 48px;
+      }
+
+      .nav-btn {
+        padding: 14px 20px;
+        font-size: 16px;
+        min-height: 52px;
+      }
+
+      input[type="text"],
+      input[type="tel"],
+      input[type="email"],
+      input[type="number"],
+      select,
+      textarea {
+        font-size: 16px;
+        padding: 14px 16px;
+        min-height: 52px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .success-icon {
+        width: 100px;
+        height: 100px;
+        font-size: 48px;
+      }
+
+      .success-title {
+        font-size: 1.5rem;
+      }
+
+      .success-message {
+        font-size: 1rem;
+      }
+
+      .kids-count-chips .chip span {
+        width: 60px;
+        height: 60px;
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 12px 12px 100px;
+      }
+
+      .card {
+        padding: 28px 20px;
+        border-radius: 16px;
+      }
+
+      h1 {
+        font-size: 1.375rem;
+      }
+
+      .header-image {
+        max-width: 220px;
+      }
+
+      .question-title {
+        font-size: 1.2rem;
+      }
+
+      .section-icon {
+        font-size: 36px;
+      }
+
+      .lang-switcher {
+        gap: 6px;
+      }
+
+      .lang-btn {
+        font-size: 14px;
+        padding: 8px 14px;
+      }
+
+      .chip span {
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+
+      .nav-arrows {
+        padding: 12px 16px;
+      }
+
+      .nav-btn {
+        font-size: 15px;
+        padding: 12px 16px;
+        min-height: 48px;
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 40px;
+      }
+
+      .success-title {
+        font-size: 1.25rem;
+      }
+
+      .kids-count-chips .chip span {
+        width: 52px;
+        height: 52px;
+        font-size: 1.2rem;
+      }
+    }
+
+    /* Landscape orientation on mobile */
+    @media (max-height: 600px) and (orientation: landscape) {
+      .container {
+        padding: 12px 16px 100px;
+      }
+
+      .card {
+        padding: 24px 20px;
+      }
+
+      .header {
+        margin-bottom: 20px;
+      }
+
+      .header-image {
+        max-width: 180px;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      .question-title {
+        font-size: 1.1rem;
+      }
+
+      .section-icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+      }
+
+      .field {
+        margin: 12px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="bg-shapes">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="container">
+    <!-- Question counter -->
+    <div class="question-counter" id="questionCounter">Question 1 of 6</div>
+
+    <div class="card">
+      <!-- Header (shown only on first screen) -->
+      <div class="header" id="surveyHeader">
+        <img class="header-image" src="attawheed-header.png" alt="Attawheed Islamic Center logo" />
+        <div class="header-org">ATTAWHEED ISLAMIC CENTER</div>
+        <h1 data-i18n="title">Youth &amp; Family Needs Survey</h1>
+        <p class="muted" data-i18n="subtitle">Takes about 1 minute. Your answers help us support your children and improve our masjid programs.</p>
+        <div class="lang-switcher">
+          <button type="button" class="lang-btn active" data-lang="en">English</button>
+          <button type="button" class="lang-btn" data-lang="ar">العربية</button>
+          <button type="button" class="lang-btn" data-lang="fa">دری</button>
+          <button type="button" class="lang-btn" data-lang="uz">O'zbek</button>
+        </div>
+      </div>
+
+      <form id="form">
+        <!-- Honeypot -->
+        <div class="hp">
+          <label>Leave empty<input type="text" name="hp" autocomplete="off"></label>
+        </div>
+
+        <!-- Screen 1: How many kids -->
+        <div class="question-screen active" data-screen="kids-count">
+          <div class="question-content">
+            <div class="section-icon">👨‍👩‍👧‍👦</div>
+            <h2 class="question-title" data-i18n="kids_label">How many children do you have?</h2>
+            <p class="question-subtitle" data-i18n="kids_help">Enter 0 if you don't have children</p>
+            <div class="field">
+              <input type="hidden" id="kids_count" value="" />
+              <div class="chips kids-count-chips">
+                <label class="chip">
+                  <input type="radio" name="kids_count_radio" value="0">
+                  <span>0</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="kids_count_radio" value="1">
+                  <span>1</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="kids_count_radio" value="2">
+                  <span>2</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="kids_count_radio" value="3">
+                  <span>3</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="kids_count_radio" value="4">
+                  <span>4</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="kids_count_radio" value="5">
+                  <span>5</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic children screens will be inserted here -->
+        <div id="childrenScreens"></div>
+
+        <!-- Screen N: Travel distance -->
+        <div class="question-screen" data-screen="travel">
+          <div class="question-content">
+            <div class="section-icon">📍</div>
+            <h2 class="question-title" data-i18n="travel_label">How far is your home from the masjid?</h2>
+            <div class="field">
+              <div class="travel-mode-selector">
+                <button type="button" class="mode-btn active" data-mode="minutes">
+                  <span data-i18n="travel_minutes">Minutes</span>
+                </button>
+                <button type="button" class="mode-btn" data-mode="miles">
+                  <span data-i18n="travel_miles">Miles</span>
+                </button>
+                <button type="button" class="mode-btn" data-mode="zip">
+                  <span data-i18n="travel_zip">ZIP code</span>
+                </button>
+              </div>
+              <input type="hidden" id="travel_mode" value="minutes" />
+
+              <div class="travel-input-group active" id="minutes_input">
+                <div class="slider-container">
+                  <input type="range" id="minutes_slider" min="1" max="60" value="15" />
+                  <div class="slider-value">
+                    <span id="minutes_value">15</span> <span data-i18n="travel_minutes_help">minutes</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="travel-input-group" id="miles_input">
+                <div class="slider-container">
+                  <input type="range" id="miles_slider" min="1" max="50" value="5" />
+                  <div class="slider-value">
+                    <span id="miles_value">5</span> <span data-i18n="travel_miles_help">miles</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="travel-input-group" id="zip_input_group">
+                <input type="text" id="zip_input" placeholder="Enter ZIP code" inputmode="numeric" maxlength="5" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen N+1: Frequency -->
+        <div class="question-screen" data-screen="frequency">
+          <div class="question-content">
+            <div class="section-icon">📅</div>
+            <h2 class="question-title" data-i18n="freq_label">How often do your children come to the masjid for any program?</h2>
+            <div class="field">
+              <div class="chips">
+                <label class="chip">
+                  <input type="radio" name="frequency" value="1_per_week">
+                  <span data-i18n="freq_1">1 time per week</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="frequency" value="2_4_per_week">
+                  <span data-i18n="freq_2">2–4 times per week</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="frequency" value="5_7_per_week">
+                  <span data-i18n="freq_3">5–7 times per week</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="frequency" value="rarely">
+                  <span data-i18n="freq_4">Rarely</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen N+2: Challenges -->
+        <div class="question-screen" data-screen="challenges">
+          <div class="question-content">
+            <div class="section-icon">🎯</div>
+            <h2 class="question-title" data-i18n="challenges_label">Which areas would you like the masjid to support your children in?</h2>
+            <p class="question-subtitle" data-i18n="challenges_help">Select all that apply</p>
+            <div class="field">
+              <div class="chips">
+                <label class="chip">
+                  <input type="checkbox" name="challenges" value="Islamic character & manners">
+                  <span data-i18n="c_character">Islamic character &amp; manners</span>
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="challenges" value="Islamic practice (Prayer & Wudu)">
+                  <span data-i18n="c_practice">Islamic practice (Prayer &amp; Wudu)</span>
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="challenges" value="Personal counseling & mentoring">
+                  <span data-i18n="c_counseling">Personal counseling &amp; mentoring</span>
+                </label>
+              </div>
+              <div class="field" style="margin-top: 16px;">
+                <input type="text" id="challenges_other" data-i18n-placeholder="challenges_other_placeholder" placeholder="Other..." />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen N+3: Biggest Challenge (optional) -->
+        <div class="question-screen" data-screen="biggest-challenge">
+          <div class="question-content">
+            <div class="section-icon">💬</div>
+            <h2 class="question-title" data-i18n="biggest_challenge_label">What is the single biggest challenge your family is facing right now, and what one change could Attawheed make to help the most?</h2>
+            <p class="question-subtitle" data-i18n="biggest_challenge_help">This is optional but helps us understand how to better serve your family.</p>
+            <div class="field">
+              <textarea id="biggest_challenge" rows="4" data-i18n-placeholder="biggest_challenge_placeholder" placeholder="Share your thoughts..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen N+4: Contact -->
+        <div class="question-screen" data-screen="contact">
+          <div class="question-content">
+            <div class="section-icon">📞</div>
+            <h2 class="question-title" data-i18n="contact_label">Add your contact info (phone required).</h2>
+            <p class="question-subtitle" data-i18n="contact_help">We'll only use this to follow up on programs.</p>
+            <div class="field">
+              <input type="tel" id="phone" name="phone" autocomplete="tel" data-i18n-placeholder="phone_placeholder" placeholder="📱 Phone (required)" inputmode="tel" required />
+            </div>
+            <div class="field">
+              <input type="email" id="email" name="email" autocomplete="email" data-i18n-placeholder="email_placeholder" placeholder="✉️ Email (optional)" />
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Success screen -->
+      <div class="success-screen" id="successScreen">
+        <div class="success-icon">✓</div>
+        <h2 class="success-title" data-i18n="success_title">Survey Submitted!</h2>
+        <p class="success-message" data-i18n="success_message">Thank you for completing the survey. Your feedback helps us create better programs for your children and improve our masjid services.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation arrows -->
+  <div class="nav-arrows" id="navArrows">
+    <button type="button" class="nav-btn nav-btn-back" id="btnBack" disabled>
+      <span>←</span>
+      <span data-i18n="back_btn">Back</span>
+    </button>
+    <button type="button" class="nav-btn nav-btn-next" id="btnNext">
+      <span data-i18n="next_btn">Next</span>
+      <span>→</span>
+    </button>
+  </div>
+
+  <script>
+    // ===== CONFIGURATION =====
+    const WEBHOOK = "https://script.google.com/macros/s/AKfycbzXunJV7CaBPcIVxPPU-uLLBGxnuUiGtPF-tONP4hwu8sCJHvFTnZgJJxFy54u0bPkG/exec";
+
+    // ===== TRANSLATIONS =====
+    const translations = {
+      en: {
+        title: "Youth & Family Needs Survey",
+        subtitle: "Takes about 1 minute. Your answers help us support your children and improve our masjid programs.",
+        kids_label: "How many children do you have?",
+        kids_help: "Enter 0 if you don't have children",
+        child_level_label: "Child {{num}} - Grade/Level",
+        child_gender_label: "Gender",
+        level_elementary: "Elementary",
+        level_middle: "Middle School",
+        level_high: "High School",
+        level_college: "College",
+        level_graduated: "Graduated",
+        gender_male: "Male",
+        gender_female: "Female",
+        travel_label: "How far is your home from the masjid?",
+        travel_minutes: "Minutes",
+        travel_miles: "Miles",
+        travel_zip: "ZIP code",
+        travel_minutes_help: "minutes",
+        travel_miles_help: "miles",
+        freq_label: "How often do your children come to the masjid for any program?",
+        freq_1: "1 time per week",
+        freq_2: "2–4 times per week",
+        freq_3: "5–7 times per week",
+        freq_4: "Rarely",
+        challenges_label: "Which areas would you like the masjid to support your children in?",
+        challenges_help: "Select all that apply",
+        challenges_other_placeholder: "Other...",
+        c_character: "Islamic character & manners",
+        c_practice: "Islamic practice (Prayer & Wudu)",
+        c_counseling: "Personal counseling & mentoring",
+        contact_label: "Add your contact info (phone required).",
+        contact_help: "We'll only use this to follow up on programs.",
+        phone_placeholder: "📱 Phone (required)",
+        email_placeholder: "✉️ Email (optional)",
+        biggest_challenge_label: "What is the single biggest challenge your family is facing right now, and what one change could Attawheed make to help the most?",
+        biggest_challenge_placeholder: "Share your thoughts...",
+        biggest_challenge_help: "This is optional but helps us understand how to better serve your family.",
+        back_btn: "Back",
+        next_btn: "Next",
+        submit: "Submit Survey",
+        success_title: "Survey Submitted!",
+        success_message: "Thank you for completing the survey. Your feedback helps us create better programs for your children and improve our masjid services.",
+        question_of: "Question {{current}} of {{total}}"
+      },
+      ar: {
+        title: "استبيان الأسرة والشباب",
+        subtitle: "يستغرق حوالي دقيقة واحدة. إجاباتكم تساعدنا على دعم أبنائكم وتحسين برامج المسجد.",
+        kids_label: "كم عدد أبنائكم؟",
+        kids_help: "أدخِل 0 إذا لم يكن لديك أبناء",
+        child_level_label: "الطفل {{num}} - المرحلة الدراسية",
+        child_gender_label: "الجنس",
+        level_elementary: "ابتدائي",
+        level_middle: "متوسط",
+        level_high: "ثانوي",
+        level_college: "جامعي",
+        level_graduated: "تخرج",
+        gender_male: "ذكر",
+        gender_female: "أنثى",
+        travel_label: "كم يبعُد منزلكم عن المسجد؟",
+        travel_minutes: "بالدقائق",
+        travel_miles: "بالأميال",
+        travel_zip: "الرمز البريدي",
+        travel_minutes_help: "دقيقة",
+        travel_miles_help: "ميل",
+        freq_label: "كم مرة يحضر أبناؤكم للمسجد لأي برنامج؟",
+        freq_1: "مرة واحدة أسبوعيًا",
+        freq_2: "2–4 مرات أسبوعيًا",
+        freq_3: "5–7 مرات أسبوعيًا",
+        freq_4: "نادِرًا",
+        challenges_label: "في أي مجالات تودّون أن يدعم المسجد أبناءكم؟",
+        challenges_help: "اختر جميع ما ينطبق",
+        challenges_other_placeholder: "أخرى...",
+        c_character: "الأخلاق والآداب الإسلامية",
+        c_practice: "الشعائر الإسلامية (مثل الصلاة والوضوء)",
+        c_counseling: "الإرشاد والمتابعة الشخصية",
+        contact_label: "يُرجى إضافة معلومات التواصل (الهاتف مطلوب).",
+        contact_help: "لن نستخدمها إلا للتواصل لمتابعة البرامج.",
+        phone_placeholder: "📱 الهاتف (مطلوب)",
+        email_placeholder: "✉️ البريد الإلكتروني (اختياري)",
+        biggest_challenge_label: "ما هو أكبر تحدٍ تواجهه عائلتكم حالياً، وما التغيير الواحد الذي يمكن لمسجد التوحيد القيام به لمساعدتكم أكثر؟",
+        biggest_challenge_placeholder: "شاركونا أفكاركم...",
+        biggest_challenge_help: "هذا اختياري ولكنه يساعدنا على فهم كيفية خدمة عائلتكم بشكل أفضل.",
+        back_btn: "رجوع",
+        next_btn: "التالي",
+        submit: "إرسال",
+        success_title: "تم إرسال الاستبيان!",
+        success_message: "شكراً لإكمال الاستبيان. ملاحظاتكم تساعدنا على إنشاء برامج أفضل لأطفالكم وتحسين خدمات المسجد.",
+        question_of: "سؤال {{current}} من {{total}}"
+      },
+      fa: {
+        title: "سروے خانواده و نوجوانان",
+        subtitle: "حدود یک دقیقه طول می‌کشد. پاسخ‌های شما به ما کمک می‌کند تا از فرزندان شما حمایت کنیم و برنامه‌های مسجد را بهتر کنیم.",
+        kids_label: "چند فرزند دارید؟",
+        kids_help: "اگر فرزندی ندارید 0 وارد کنید",
+        child_level_label: "فرزند {{num}} - پایه/سطح",
+        child_gender_label: "جنسیت",
+        level_elementary: "ابتدایی",
+        level_middle: "راهنمایی",
+        level_high: "دبیرستان",
+        level_college: "دانشگاه",
+        level_graduated: "فارغ‌التحصیل",
+        gender_male: "پسر",
+        gender_female: "دختر",
+        travel_label: "خانه شما تا مسجد چقدر فاصله دارد؟",
+        travel_minutes: "دقیقه",
+        travel_miles: "میل",
+        travel_zip: "کُد پستی",
+        travel_minutes_help: "دقیقه",
+        travel_miles_help: "میل",
+        freq_label: "فرزندان شما چند وقت یک‌بار برای هر برنامه به مسجد می‌آیند؟",
+        freq_1: "هفته‌ای ۱ بار",
+        freq_2: "هفته‌ای ۲ تا ۴ بار",
+        freq_3: "هفته‌ای ۵ تا ۷ بار",
+        freq_4: "کم",
+        challenges_label: "در کدام زمینه‌ها می‌خواهید مسجد از فرزندان شما حمایت کند؟",
+        challenges_help: "همه موارد قابل اجرا را انتخاب کنید",
+        challenges_other_placeholder: "سایر...",
+        c_character: "اخلاق و آداب اسلامی",
+        c_practice: "عمل اسلامی (مثل نماز و وضو)",
+        c_counseling: "مشاوره و راهنمایی شخصی",
+        contact_label: "اطلاعات تماس خود را وارد کنید (شماره تلفن الزامی است).",
+        contact_help: "از این اطلاعات فقط برای پیگیری برنامه‌ها استفاده می‌کنیم.",
+        phone_placeholder: "📱 شماره تلفن (الزامی)",
+        email_placeholder: "✉️ ایمیل (اختیاری)",
+        biggest_challenge_label: "بزرگترین چالشی که خانواده شما در حال حاضر با آن روبرو است چیست، و مسجد توحید چه تغییری می‌تواند ایجاد کند تا بیشترین کمک را به شما بکند؟",
+        biggest_challenge_placeholder: "نظرات خود را به اشتراک بگذارید...",
+        biggest_challenge_help: "این اختیاری است اما به ما کمک می‌کند تا بفهمیم چگونه می‌توانیم خانواده شما را بهتر خدمت کنیم.",
+        back_btn: "بازگشت",
+        next_btn: "بعدی",
+        submit: "ارسال",
+        success_title: "سروی ارسال شد!",
+        success_message: "تشکر از تکمیل سروی. نظرات شما به ما کمک می‌کند تا برنامه‌های بهتری برای فرزندان شما ایجاد کنیم و خدمات مسجد را بهبود بخشیم.",
+        question_of: "سؤال {{current}} از {{total}}"
+      },
+      uz: {
+        title: "Yoshlar va oila so'rovnomasi",
+        subtitle: "Taxminan 1 daqiqa vaqt oladi. Javoblaringiz farzandlaringizni qo'llab-quvvatlash va masjid dasturlarini yaxshilashga yordam beradi.",
+        kids_label: "Nechta farzandingiz bor?",
+        kids_help: "Farzandingiz bo'lmasa 0 kiriting",
+        child_level_label: "Farzand {{num}} - Sinf/Daraja",
+        child_gender_label: "Jinsi",
+        level_elementary: "Boshlang'ich",
+        level_middle: "O'rta",
+        level_high: "Yuqori",
+        level_college: "Kollej",
+        level_graduated: "Bitirgan",
+        gender_male: "O'g'il",
+        gender_female: "Qiz",
+        travel_label: "Uyingiz masjiddan qanchalik uzoqda?",
+        travel_minutes: "Daqiqalar",
+        travel_miles: "Mil",
+        travel_zip: "Pochta indeksi",
+        travel_minutes_help: "daqiqa",
+        travel_miles_help: "mil",
+        freq_label: "Bolalaringiz masjidga dasturlarga qanchalik tez-tez keladi?",
+        freq_1: "Haftada 1 marta",
+        freq_2: "Haftada 2–4 marta",
+        freq_3: "Haftada 5–7 marta",
+        freq_4: "Kamdan-kam",
+        challenges_label: "Masjid bolalaringizni qaysi sohalarda qo'llab-quvvatlashini xohlaysiz?",
+        challenges_help: "Barcha mos kelganlarini tanlang",
+        challenges_other_placeholder: "Boshqa...",
+        c_character: "Islomiy axloq va odob",
+        c_practice: "Islomiy amaliyot (Namoz va Tahorat)",
+        c_counseling: "Shaxsiy maslahat va murabbiylik",
+        contact_label: "Aloqa ma'lumotlaringizni qo'shing (telefon kerak).",
+        contact_help: "Buni faqat dasturlar bo'yicha bog'lanish uchun ishlatamiz.",
+        phone_placeholder: "📱 Telefon (kerak)",
+        email_placeholder: "✉️ Email (ixtiyoriy)",
+        biggest_challenge_label: "Oilangiz hozir duch kelayotgan eng katta qiyinchilik nima va Attawheed masjidi sizga yordam berish uchun qanday o'zgarish qilishi mumkin?",
+        biggest_challenge_placeholder: "Fikrlaringizni baham ko'ring...",
+        biggest_challenge_help: "Bu ixtiyoriy, lekin oilangizga yaxshiroq xizmat ko'rsatish uchun bizga yordam beradi.",
+        back_btn: "Orqaga",
+        next_btn: "Keyingi",
+        submit: "Yuborish",
+        success_title: "So'rovnoma yuborildi!",
+        success_message: "So'rovnomani to'ldirgani uchun tashakkur. Sizning fikringiz bizga bolalaringiz uchun yaxshiroq dasturlar yaratish va masjid xizmatlarini yaxshilashga yordam beradi.",
+        question_of: "Savol {{current}} / {{total}}"
+      }
+    };
+
+    // ===== STATE =====
+    const state = {
+      lang: 'en',
+      currentScreen: 0,
+      totalScreens: 6, // Will be updated dynamically
+      screens: [],
+      direction: 'forward' // 'forward' or 'backward'
+    };
+
+    // ===== DOM ELEMENTS =====
+    const form = document.getElementById('form');
+    const kidsCountInput = document.getElementById('kids_count');
+    const childrenScreensContainer = document.getElementById('childrenScreens');
+    const progressBar = document.getElementById('progressBar');
+    const questionCounter = document.getElementById('questionCounter');
+    const btnBack = document.getElementById('btnBack');
+    const btnNext = document.getElementById('btnNext');
+    const navArrows = document.getElementById('navArrows');
+    const surveyHeader = document.getElementById('surveyHeader');
+    const successScreen = document.getElementById('successScreen');
+
+    // Travel mode elements
+    const travelModeButtons = document.querySelectorAll('.mode-btn');
+    const travelModeInput = document.getElementById('travel_mode');
+    const minutesSlider = document.getElementById('minutes_slider');
+    const minutesValue = document.getElementById('minutes_value');
+    const milesSlider = document.getElementById('miles_slider');
+    const milesValue = document.getElementById('miles_value');
+
+    // ===== TRANSLATION HELPER =====
+    function t(key, replacements = {}) {
+      let text = translations[state.lang][key] || translations.en[key] || key;
+      Object.keys(replacements).forEach(k => {
+        text = text.replace(`{{${k}}}`, replacements[k]);
+      });
+      return text;
+    }
+
+    function applyLang() {
+      // Apply RTL for Arabic and Dari
+      if (state.lang === 'ar' || state.lang === 'fa') {
+        document.body.classList.add('rtl');
+        document.documentElement.setAttribute('dir', 'rtl');
+      } else {
+        document.body.classList.remove('rtl');
+        document.documentElement.setAttribute('dir', 'ltr');
+      }
+
+      // Update all translatable elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = t(key);
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.placeholder = t(key);
+      });
+
+      updateQuestionCounter();
+    }
+
+    // ===== SCREEN MANAGEMENT =====
+    function buildScreensList() {
+      state.screens = [];
+
+      // Add initial screen
+      state.screens.push(document.querySelector('[data-screen="kids-count"]'));
+
+      // Add children screens
+      const numKids = parseInt(kidsCountInput.value, 10) || 0;
+      const childScreens = document.querySelectorAll('[data-screen^="child-"]');
+      childScreens.forEach((screen, idx) => {
+        if (idx < numKids) {
+          state.screens.push(screen);
+        }
+      });
+
+      // Add remaining screens
+      state.screens.push(document.querySelector('[data-screen="travel"]'));
+      state.screens.push(document.querySelector('[data-screen="frequency"]'));
+      state.screens.push(document.querySelector('[data-screen="challenges"]'));
+      state.screens.push(document.querySelector('[data-screen="biggest-challenge"]'));
+      state.screens.push(document.querySelector('[data-screen="contact"]'));
+
+      state.totalScreens = state.screens.length;
+    }
+
+    function renderChildrenScreens() {
+      const numKids = parseInt(kidsCountInput.value, 10) || 0;
+      childrenScreensContainer.innerHTML = '';
+
+      for (let i = 1; i <= numKids; i++) {
+        const screen = document.createElement('div');
+        screen.className = 'question-screen';
+        screen.dataset.screen = `child-${i}`;
+        screen.innerHTML = `
+          <div class="question-content">
+            <div class="section-icon">👶</div>
+            <h2 class="question-title">${t('child_level_label', {num: i})}</h2>
+            <div class="field">
+              <label>${t('child_level_label', {num: i})}</label>
+              <div class="chips">
+                <label class="chip">
+                  <input type="radio" name="child_${i}_level" value="Elementary" required>
+                  <span>${t('level_elementary')}</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="child_${i}_level" value="Middle" required>
+                  <span>${t('level_middle')}</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="child_${i}_level" value="High" required>
+                  <span>${t('level_high')}</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="child_${i}_level" value="College" required>
+                  <span>${t('level_college')}</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="child_${i}_level" value="Graduated" required>
+                  <span>${t('level_graduated')}</span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <label>${t('child_gender_label')}</label>
+              <div class="chips">
+                <label class="chip">
+                  <input type="radio" name="child_${i}_gender" value="Male" required>
+                  <span>${t('gender_male')}</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="child_${i}_gender" value="Female" required>
+                  <span>${t('gender_female')}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        `;
+        childrenScreensContainer.appendChild(screen);
+
+        // Add auto-transition listeners for this child's screen
+        setTimeout(() => {
+          const childNum = i;
+          const levelInputs = screen.querySelectorAll(`[name="child_${childNum}_level"]`);
+          const genderInputs = screen.querySelectorAll(`[name="child_${childNum}_gender"]`);
+
+          // Function to check if both selections are made and auto-advance
+          const checkAndAdvance = () => {
+            const level = form.querySelector(`[name="child_${childNum}_level"]:checked`);
+            const gender = form.querySelector(`[name="child_${childNum}_gender"]:checked`);
+
+            // If both are selected and this is the current screen
+            if (level && gender && screen.classList.contains('active')) {
+              updateNextButton();
+              // Auto-advance after a short delay
+              setTimeout(() => {
+                if (state.currentScreen < state.totalScreens - 1) {
+                  goToScreen(state.currentScreen + 1, 'forward');
+                }
+              }, 300);
+            }
+          };
+
+          levelInputs.forEach(input => {
+            input.addEventListener('change', checkAndAdvance);
+          });
+
+          genderInputs.forEach(input => {
+            input.addEventListener('change', checkAndAdvance);
+          });
+        }, 100);
+      }
+
+      buildScreensList();
+    }
+
+    function goToScreen(index, direction = 'forward') {
+      if (index < 0 || index >= state.totalScreens) return;
+
+      state.direction = direction;
+      state.currentScreen = index;
+
+      // Hide header after first screen
+      surveyHeader.style.display = index === 0 ? 'block' : 'none';
+
+      // Update all screens
+      state.screens.forEach((screen, idx) => {
+        screen.classList.remove('active', 'slide-left', 'slide-right');
+        if (idx === index) {
+          screen.classList.add('active');
+          if (direction === 'forward') {
+            screen.classList.add('slide-right');
+          } else {
+            screen.classList.add('slide-left');
+          }
+        }
+      });
+
+      // Update navigation buttons
+      btnBack.disabled = index === 0;
+
+      // Check if we can proceed
+      updateNextButton();
+
+      // Update progress and counter
+      updateProgress();
+      updateQuestionCounter();
+    }
+
+    function updateNextButton() {
+      const currentScreenEl = state.screens[state.currentScreen];
+      const isLastScreen = state.currentScreen === state.totalScreens - 1;
+
+      if (isLastScreen) {
+        btnNext.className = 'nav-btn nav-btn-submit';
+        btnNext.innerHTML = `<span>${t('submit')}</span> <span>✓</span>`;
+      } else {
+        btnNext.className = 'nav-btn nav-btn-next';
+        btnNext.innerHTML = `<span>${t('next_btn')}</span> <span>→</span>`;
+      }
+
+      // Check if current screen is valid
+      btnNext.disabled = !isScreenValid(currentScreenEl);
+    }
+
+    function isScreenValid(screenEl) {
+      if (!screenEl) return false;
+
+      const screenType = screenEl.dataset.screen;
+
+      // Kids count screen
+      if (screenType === 'kids-count') {
+        const val = parseInt(kidsCountInput.value, 10);
+        return !isNaN(val) && val >= 0;
+      }
+
+      // Child screens
+      if (screenType.startsWith('child-')) {
+        const num = screenType.split('-')[1];
+        const level = form.querySelector(`[name="child_${num}_level"]:checked`);
+        const gender = form.querySelector(`[name="child_${num}_gender"]:checked`);
+        return level && gender;
+      }
+
+      // Travel screen
+      if (screenType === 'travel') {
+        const mode = travelModeInput.value;
+        if (mode === 'minutes') return parseInt(minutesSlider.value, 10) > 0;
+        if (mode === 'miles') return parseInt(milesSlider.value, 10) > 0;
+        if (mode === 'zip') return document.getElementById('zip_input').value.trim().length === 5;
+        return false;
+      }
+
+      // Frequency screen
+      if (screenType === 'frequency') {
+        return !!form.querySelector('input[name="frequency"]:checked');
+      }
+
+      // Challenges screen
+      if (screenType === 'challenges') {
+        const checked = form.querySelectorAll('input[name="challenges"]:checked').length;
+        const other = document.getElementById('challenges_other').value.trim();
+        return checked > 0 || other.length > 0;
+      }
+
+      // Biggest challenge (optional)
+      if (screenType === 'biggest-challenge') {
+        return true; // Always valid since optional
+      }
+
+      // Contact screen
+      if (screenType === 'contact') {
+        const phone = document.getElementById('phone').value.trim();
+        if (!phone) return false;
+        const digits = phone.replace(/\D/g, '');
+        return digits.length >= 10;
+      }
+
+      return true;
+    }
+
+    function updateProgress() {
+      const progress = ((state.currentScreen + 1) / state.totalScreens) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+
+    function updateQuestionCounter() {
+      const text = t('question_of', {
+        current: state.currentScreen + 1,
+        total: state.totalScreens
+      });
+      questionCounter.textContent = text;
+    }
+
+    // ===== EVENT HANDLERS =====
+
+    // Language switching
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.lang = btn.dataset.lang;
+        applyLang();
+
+        // Re-render children screens with new language
+        const numKids = parseInt(kidsCountInput.value, 10) || 0;
+        if (numKids > 0) {
+          renderChildrenScreens();
+        }
+
+        // Update the navigation button text with new language
+        updateNextButton();
+      });
+    });
+
+    // Kids count input (radio buttons)
+    document.querySelectorAll('input[name="kids_count_radio"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) {
+          kidsCountInput.value = parseInt(radio.value, 10);
+          renderChildrenScreens();
+          updateNextButton();
+
+          // Auto-advance after a short delay
+          setTimeout(() => {
+            if (state.currentScreen < state.totalScreens - 1) {
+              goToScreen(state.currentScreen + 1, 'forward');
+            }
+          }, 300);
+        }
+      });
+    });
+
+    // Travel mode switching
+    travelModeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        travelModeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const mode = btn.dataset.mode;
+        travelModeInput.value = mode;
+
+        document.querySelectorAll('.travel-input-group').forEach(g => g.classList.remove('active'));
+
+        if (mode === 'minutes') {
+          document.getElementById('minutes_input').classList.add('active');
+        } else if (mode === 'miles') {
+          document.getElementById('miles_input').classList.add('active');
+        } else if (mode === 'zip') {
+          document.getElementById('zip_input_group').classList.add('active');
+          // Focus on ZIP input for convenience
+          setTimeout(() => document.getElementById('zip_input').focus(), 100);
+        }
+
+        updateNextButton();
+
+        // Auto-advance for minutes/miles (they have default values)
+        // For ZIP, wait until they enter 5 digits
+        if ((mode === 'minutes' || mode === 'miles') && isScreenValid(state.screens[state.currentScreen])) {
+          setTimeout(() => {
+            const currentScreenEl = state.screens[state.currentScreen];
+            if (currentScreenEl && currentScreenEl.dataset.screen === 'travel' && state.currentScreen < state.totalScreens - 1) {
+              goToScreen(state.currentScreen + 1, 'forward');
+            }
+          }, 800);
+        }
+      });
+    });
+
+    // Travel sliders
+    minutesSlider.addEventListener('input', () => {
+      minutesValue.textContent = minutesSlider.value;
+      updateNextButton();
+    });
+
+    milesSlider.addEventListener('input', () => {
+      milesValue.textContent = milesSlider.value;
+      updateNextButton();
+    });
+
+    // ZIP input
+    document.getElementById('zip_input').addEventListener('input', (e) => {
+      updateNextButton();
+
+      // Auto-advance when ZIP is complete (5 digits)
+      const zipValue = e.target.value.trim();
+      if (zipValue.length === 5) {
+        setTimeout(() => {
+          const currentScreenEl = state.screens[state.currentScreen];
+          if (currentScreenEl && currentScreenEl.dataset.screen === 'travel' && state.currentScreen < state.totalScreens - 1) {
+            goToScreen(state.currentScreen + 1, 'forward');
+          }
+        }, 600);
+      }
+    });
+
+    // Frequency selection auto-advance
+    document.querySelectorAll('input[name="frequency"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) {
+          updateNextButton();
+
+          // Auto-advance after a short delay
+          setTimeout(() => {
+            const currentScreenEl = state.screens[state.currentScreen];
+            if (currentScreenEl && currentScreenEl.dataset.screen === 'frequency' && state.currentScreen < state.totalScreens - 1) {
+              goToScreen(state.currentScreen + 1, 'forward');
+            }
+          }, 300);
+        }
+      });
+    });
+
+    // Navigation buttons
+    btnBack.addEventListener('click', () => {
+      if (state.currentScreen > 0) {
+        goToScreen(state.currentScreen - 1, 'backward');
+      }
+    });
+
+    btnNext.addEventListener('click', async () => {
+      const isLastScreen = state.currentScreen === state.totalScreens - 1;
+
+      if (isLastScreen) {
+        await submitForm();
+      } else {
+        goToScreen(state.currentScreen + 1, 'forward');
+      }
+    });
+
+    // Form input listeners for validation
+    form.addEventListener('input', () => {
+      updateNextButton();
+    });
+
+    form.addEventListener('change', () => {
+      updateNextButton();
+    });
+
+    // ===== SWIPE GESTURE SUPPORT =====
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+
+      // Only handle horizontal swipes
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0 && state.currentScreen > 0) {
+          // Swipe right = go back
+          goToScreen(state.currentScreen - 1, 'backward');
+        } else if (deltaX < 0 && state.currentScreen < state.totalScreens - 1 && !btnNext.disabled) {
+          // Swipe left = go forward (if valid)
+          goToScreen(state.currentScreen + 1, 'forward');
+        }
+      }
+    }
+
+    // ===== KEYBOARD NAVIGATION =====
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (state.currentScreen > 0) {
+          goToScreen(state.currentScreen - 1, 'backward');
+        }
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (state.currentScreen < state.totalScreens - 1 && !btnNext.disabled) {
+          goToScreen(state.currentScreen + 1, 'forward');
+        }
+      } else if (e.key === 'Enter' && !btnNext.disabled) {
+        // Prevent form submission on Enter in input fields
+        const target = e.target;
+        if (target.tagName !== 'TEXTAREA' && target.tagName !== 'BUTTON') {
+          e.preventDefault();
+          btnNext.click();
+        }
+      }
+    });
+
+    // ===== FORM SUBMISSION =====
+    async function submitForm() {
+      // Check honeypot
+      const hp = form.querySelector('[name="hp"]').value;
+      if (hp && hp.trim() !== '') {
+        console.log('Honeypot triggered');
+        return;
+      }
+
+      btnNext.disabled = true;
+      btnNext.innerHTML = '<span>Submitting...</span> <span>⏳</span>';
+
+      try {
+        // Gather form data
+        const numKids = parseInt(kidsCountInput.value, 10) || 0;
+        const responseId = generateResponseId();
+
+        // Get travel data
+        let travelData = {};
+        const travelMode = travelModeInput.value;
+        if (travelMode === 'minutes') {
+          travelData = { mode: 'minutes', minutes: parseInt(minutesSlider.value, 10) };
+        } else if (travelMode === 'miles') {
+          travelData = { mode: 'miles', miles: parseInt(milesSlider.value, 10) };
+        } else if (travelMode === 'zip') {
+          travelData = { mode: 'zip', zip: document.getElementById('zip_input').value.trim() };
+        }
+
+        // Get challenges
+        const challenges = Array.from(form.querySelectorAll('input[name="challenges"]:checked')).map(i => i.value);
+        const challengesOther = document.getElementById('challenges_other').value.trim();
+
+        // Get frequency
+        const frequency = form.querySelector('input[name="frequency"]:checked')?.value || '';
+
+        // Get biggest challenge
+        const biggestChallengeEl = document.getElementById('biggest_challenge');
+        const biggestChallenge = biggestChallengeEl ? biggestChallengeEl.value.trim() : '';
+
+        // Get contact
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+
+        // Get UTM parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const utm = {
+          utm_source: urlParams.get('utm_source') || '',
+          utm_medium: urlParams.get('utm_medium') || '',
+          utm_campaign: urlParams.get('utm_campaign') || ''
+        };
+
+        // Create entries (one per child)
+        const promises = [];
+
+        if (numKids === 0) {
+          // No children - send single entry
+          const entry = {
+            response_id: responseId,
+            lang: state.lang,
+            phone: phone,
+            email: email,
+            travel: travelData,
+            frequency: frequency,
+            challenges: challenges,
+            challenges_other: challengesOther,
+            biggest_challenge: biggestChallenge,
+            child_level: '',
+            child_gender: '',
+            utm: utm,
+            hp: ''
+          };
+
+          promises.push(
+            fetch(WEBHOOK, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain' },
+              body: JSON.stringify(entry)
+            })
+          );
+        } else {
+          // Send one entry per child
+          for (let i = 1; i <= numKids; i++) {
+            const levelEl = form.querySelector(`[name="child_${i}_level"]:checked`);
+            const genderEl = form.querySelector(`[name="child_${i}_gender"]:checked`);
+
+            const entry = {
+              response_id: responseId,
+              lang: state.lang,
+              phone: phone,
+              email: email,
+              travel: travelData,
+              frequency: frequency,
+              challenges: challenges,
+              challenges_other: challengesOther,
+              biggest_challenge: biggestChallenge,
+              child_level: levelEl ? levelEl.value : '',
+              child_gender: genderEl ? genderEl.value : '',
+              utm: utm,
+              hp: ''
+            };
+
+            promises.push(
+              fetch(WEBHOOK, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(entry)
+              })
+            );
+          }
+        }
+
+        await Promise.all(promises);
+
+        // Show success screen
+        progressBar.style.width = '100%';
+        navArrows.style.display = 'none';
+        questionCounter.style.display = 'none';
+
+        state.screens.forEach(screen => screen.classList.remove('active'));
+        successScreen.classList.add('visible');
+
+      } catch (err) {
+        console.error('Submission error:', err);
+        alert('Network error. Please try again.');
+        btnNext.disabled = false;
+        updateNextButton();
+      }
+    }
+
+    function generateResponseId() {
+      return 'resp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    // ===== INITIALIZATION =====
+    function init() {
+      buildScreensList();
+      applyLang();
+      updateProgress();
+      updateQuestionCounter();
+      updateNextButton();
+    }
+
+    // Start the application
+    init();
+  </script>
+</body>
+</html>
