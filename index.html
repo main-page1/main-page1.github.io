@@ -1045,13 +1045,13 @@
         subtitle: "Takes about 1 minute. Your answers help us support your children and improve our masjid programs.",
         kids_label: "How many children do you have?",
         kids_help: "Enter 0 if you don't have children",
-        child_level_label: "Child {{num}} - Grade/Level",
+        child_level_label: "Child {{num}} - Age",
         child_gender_label: "Gender",
-        level_elementary: "Elementary",
-        level_middle: "Middle School",
-        level_high: "High School",
-        level_college: "College",
-        level_graduated: "Graduated",
+        level_preschool: "0-5 years",
+        level_elementary: "6-10 years",
+        level_middle: "11-13 years",
+        level_high: "14-17 years",
+        level_young_adult: "18+ years",
         gender_male: "Male",
         gender_female: "Female",
         travel_label: "How far is your home from the masjid?",
@@ -1090,13 +1090,13 @@
         subtitle: "يستغرق حوالي دقيقة واحدة. إجاباتكم تساعدنا على دعم أبنائكم وتحسين برامج المسجد.",
         kids_label: "كم عدد أبنائكم؟",
         kids_help: "أدخِل 0 إذا لم يكن لديك أبناء",
-        child_level_label: "الطفل {{num}} - المرحلة الدراسية",
+        child_level_label: "الطفل {{num}} - العمر",
         child_gender_label: "الجنس",
-        level_elementary: "ابتدائي",
-        level_middle: "متوسط",
-        level_high: "ثانوي",
-        level_college: "جامعي",
-        level_graduated: "تخرج",
+        level_preschool: "0-5 سنوات",
+        level_elementary: "6-10 سنوات",
+        level_middle: "11-13 سنة",
+        level_high: "14-17 سنة",
+        level_young_adult: "18+ سنة",
         gender_male: "ذكر",
         gender_female: "أنثى",
         travel_label: "كم يبعُد منزلكم عن المسجد؟",
@@ -1135,13 +1135,13 @@
         subtitle: "حدود یک دقیقه طول می‌کشد. پاسخ‌های شما به ما کمک می‌کند تا از فرزندان شما حمایت کنیم و برنامه‌های مسجد را بهتر کنیم.",
         kids_label: "چند فرزند دارید؟",
         kids_help: "اگر فرزندی ندارید 0 وارد کنید",
-        child_level_label: "فرزند {{num}} - پایه/سطح",
+        child_level_label: "فرزند {{num}} - سن",
         child_gender_label: "جنسیت",
-        level_elementary: "ابتدایی",
-        level_middle: "راهنمایی",
-        level_high: "دبیرستان",
-        level_college: "دانشگاه",
-        level_graduated: "فارغ‌التحصیل",
+        level_preschool: "0-5 سال",
+        level_elementary: "6-10 سال",
+        level_middle: "11-13 سال",
+        level_high: "14-17 سال",
+        level_young_adult: "18+ سال",
         gender_male: "پسر",
         gender_female: "دختر",
         travel_label: "خانه شما تا مسجد چقدر فاصله دارد؟",
@@ -1180,13 +1180,13 @@
         subtitle: "Taxminan 1 daqiqa vaqt oladi. Javoblaringiz farzandlaringizni qo'llab-quvvatlash va masjid dasturlarini yaxshilashga yordam beradi.",
         kids_label: "Nechta farzandingiz bor?",
         kids_help: "Farzandingiz bo'lmasa 0 kiriting",
-        child_level_label: "Farzand {{num}} - Sinf/Daraja",
+        child_level_label: "Farzand {{num}} - Yosh",
         child_gender_label: "Jinsi",
-        level_elementary: "Boshlang'ich",
-        level_middle: "O'rta",
-        level_high: "Yuqori",
-        level_college: "Kollej",
-        level_graduated: "Bitirgan",
+        level_preschool: "0-5 yosh",
+        level_elementary: "6-10 yosh",
+        level_middle: "11-13 yosh",
+        level_high: "14-17 yosh",
+        level_young_adult: "18+ yosh",
         gender_male: "O'g'il",
         gender_female: "Qiz",
         travel_label: "Uyingiz masjiddan qanchalik uzoqda?",
@@ -1326,24 +1326,24 @@
               <label>${t('child_level_label', {num: i})}</label>
               <div class="chips">
                 <label class="chip">
-                  <input type="radio" name="child_${i}_level" value="Elementary" required>
+                  <input type="radio" name="child_${i}_level" value="0-5 years" required>
+                  <span>${t('level_preschool')}</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="child_${i}_level" value="6-10 years" required>
                   <span>${t('level_elementary')}</span>
                 </label>
                 <label class="chip">
-                  <input type="radio" name="child_${i}_level" value="Middle" required>
+                  <input type="radio" name="child_${i}_level" value="11-13 years" required>
                   <span>${t('level_middle')}</span>
                 </label>
                 <label class="chip">
-                  <input type="radio" name="child_${i}_level" value="High" required>
+                  <input type="radio" name="child_${i}_level" value="14-17 years" required>
                   <span>${t('level_high')}</span>
                 </label>
                 <label class="chip">
-                  <input type="radio" name="child_${i}_level" value="College" required>
-                  <span>${t('level_college')}</span>
-                </label>
-                <label class="chip">
-                  <input type="radio" name="child_${i}_level" value="Graduated" required>
-                  <span>${t('level_graduated')}</span>
+                  <input type="radio" name="child_${i}_level" value="18+ years" required>
+                  <span>${t('level_young_adult')}</span>
                 </label>
               </div>
             </div>
@@ -1372,15 +1372,19 @@
 
           // Function to check if both selections are made and auto-advance
           const checkAndAdvance = () => {
+            // Only proceed if this screen is currently active
+            if (!screen.classList.contains('active')) return;
+
             const level = form.querySelector(`[name="child_${childNum}_level"]:checked`);
             const gender = form.querySelector(`[name="child_${childNum}_gender"]:checked`);
 
-            // If both are selected and this is the current screen
-            if (level && gender && screen.classList.contains('active')) {
+            // If both are selected, auto-advance
+            if (level && gender) {
               updateNextButton();
               // Auto-advance after a short delay
               setTimeout(() => {
-                if (state.currentScreen < state.totalScreens - 1) {
+                // Double-check we're still on this screen
+                if (screen.classList.contains('active') && state.currentScreen < state.totalScreens - 1) {
                   goToScreen(state.currentScreen + 1, 'forward');
                 }
               }, 300);
@@ -1618,6 +1622,35 @@
           }
         }, 600);
       }
+    });
+
+    // Phone and email inputs - update button state as user types
+    document.getElementById('phone').addEventListener('input', () => {
+      updateNextButton();
+    });
+
+    document.getElementById('email').addEventListener('input', () => {
+      updateNextButton();
+    });
+
+    // Challenges other field
+    document.getElementById('challenges_other').addEventListener('input', () => {
+      updateNextButton();
+    });
+
+    // Biggest challenge field (optional but still update button)
+    const biggestChallengeField = document.getElementById('biggest_challenge');
+    if (biggestChallengeField) {
+      biggestChallengeField.addEventListener('input', () => {
+        updateNextButton();
+      });
+    }
+
+    // Challenges checkboxes - update button state
+    document.querySelectorAll('input[name="challenges"]').forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        updateNextButton();
+      });
     });
 
     // Frequency selection auto-advance
